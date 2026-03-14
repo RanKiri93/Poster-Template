@@ -1,0 +1,232 @@
+\RequirePackage{xparse}
+\RequirePackage{amsmath}
+\RequirePackage{xstring}
+
+\makeatletter
+% Define \bA to \bZ to produce \mathbb{A} to \mathbb{Z}
+\newcommand{\definebb}[1]{%
+  \expandafter\newcommand\csname b#1\endcsname{\ensuremath{\mathbb{#1}}}%
+}
+\newcommand{\allLetters}{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}
+
+\@for \x:=\allLetters \do{%
+  \expandafter\definebb\x
+}
+\makeatother
+
+\makeatletter
+% Define \cA to \cZ to produce \mathcal{A} to \mathcal{Z}
+\newcommand{\definecal}[1]{%
+  \expandafter\newcommand\csname c#1\endcsname{\ensuremath{\mathcal{#1}}}%
+}
+
+\@for \x:=\allLetters \do{%
+  \expandafter\definecal\x
+}
+\makeatother
+
+\makeatletter
+% Define \bfA to \bfZ and \bfa to \bfz to produce \mathbf{A} to \mathbf{Z} and \mathbf{a} to \mathbf{z}
+\newcommand{\definebf}[1]{%
+  \expandafter\newcommand\csname bf#1\endcsname{\ensuremath{\mathbf{#1}}}%
+}
+
+% List of all uppercase letters
+\newcommand{\uppercaseLetters}{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}
+% List of all lowercase letters
+\newcommand{\lowercaseLetters}{a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}
+
+% Define commands for uppercase letters
+\@for \x:=\uppercaseLetters \do{%
+  \expandafter\definebf\x
+}
+% Define commands for lowercase letters
+\@for \x:=\lowercaseLetters \do{%
+  \expandafter\definebf\x
+}
+\makeatother
+
+% Define \dd similar to how it's handled in the physics package
+%\newcommand{\dd}[2][1]{% #1 is optional, defaults to 1
+%  \ifnum#1=1
+%    \mathrm{d}#2
+%  \else
+%    \mathrm{d}^{#1}#2
+%  \fi
+%}
+\newcommand{\dell}{\ensuremath{\partial}}  % Define the partial derivative symbol
+
+% Automatically sized braces
+\DeclareDocumentCommand{\qty}{g  o d() d||}{
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{
+			\IfNoValueTF{#3}{
+				\IfNoValueTF{#4}{}{\left| #4\right|}}{
+					\left( #3\right) \IfNoValueTF{#4}{}{\left| #4\right|}
+				}}{
+					\left[#2\right] \IfNoValueTF{#3}{}{\left( #3\right)} \IfNoValueTF{#4}{}{\left| #4\right|}
+				}}{
+					\left\{#1\right\} \IfNoValueTF{#2}{}{\left[#2\right]} \IfNoValueTF{#3}{}{\left(#3\right)} \IfNoValueTF{#4}{}{\left| #4\right|}
+				}
+}
+
+% Automatically sized matrices
+\DeclareDocumentCommand{\mqty}{g  o d() d||}{
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{
+			\IfNoValueTF{#3}{
+				\IfNoValueTF{#4}{}{\begin{vmatrix}  #4\end{vmatrix}}}{
+					\begin{pmatrix} #3\end{pmatrix} \IfNoValueTF{#4}{}{\begin{vmatrix}  #4\end{vmatrix}}
+				}}{
+					\begin{bmatrix}#2\end{bmatrix}] \IfNoValueTF{#3}{}{\begin{pmatrix} #3\end{pmatrix}} \IfNoValueTF{#4}{}{\begin{vmatrix}  #4\end{vmatrix}}
+				}}{
+					\begin{Bmatrix}#1\end{Bmatrix} \IfNoValueTF{#2}{}{\begin{bmatrix}#2\end{bmatrix}} \IfNoValueTF{#3}{}{\begin{pmatrix} #3\end{pmatrix}} \IfNoValueTF{#4}{}{\begin{vmatrix}  #4\end{vmatrix}}
+				}
+}
+\DeclareDocumentCommand{\mqtr}{m}{
+	\begin{matrix} #1 \end{matrix}
+}
+
+% Determinant
+
+\DeclareDocumentCommand{\det}{m}{
+	{\rm det}\mqty(#1)
+}
+
+% Misc.
+
+\DeclareDocumentCommand{\ord}{m}{ o\qty(#1)}
+\DeclareDocumentCommand{\norm}{m}{ \lVert #1\rVert }
+\DeclareDocumentCommand{\abs}{m}{\qty|#1|}
+
+% Evaluation (of Integrals)
+
+\DeclareDocumentCommand{\eval}{m}{
+	\left. #1\vphantom{\int}\right|
+}
+
+% Differential
+
+\DeclareDocumentCommand\differential{ o g d() }{ % Differential 'd'
+	% o: optional n for nth differential
+	% g: optional argument for readability and to control spacing
+	% d: long-form as in d(cos x)
+	\IfNoValueTF{#2}{
+		\IfNoValueTF{#3}
+			{\diffd\IfNoValueTF{#1}{}{^{#1}}}
+			{\mathinner{{\rm d}\IfNoValueTF{#1}{}{^{#1}}\argopen(#3\argclose)}}
+		}
+		{\mathinner{{\rm d}\IfNoValueTF{#1}{}{^{#1}}#2} \IfNoValueTF{#3}{}{(#3)}}
+	}
+\DeclareDocumentCommand\dd{}{\differential} % Shorthand for \differential
+
+% Regular derivative
+
+\DeclareDocumentCommand\derivative{ s o m g d() }
+{ % Total derivative
+	% s: star for \flatfrac flat derivative
+	% o: optional n for nth derivative
+	% m: mandatory (x in df/dx)
+	% g: optional (f in df/dx)
+	% d: long-form d/dx(...)
+	\IfBooleanTF{#1}
+	{\let\fractype\flatfrac}
+	{\let\fractype\frac}
+	\IfNoValueTF{#4}
+	{
+		\IfNoValueTF{#5}
+		{\fractype{{\rm d} \IfNoValueTF{#2}{}{^{#2}}}{{\rm d} #3\IfNoValueTF{#2}{}{^{#2}}}}
+		{\fractype{{\rm d} \IfNoValueTF{#2}{}{^{#2}}}{{\rm d} #3\IfNoValueTF{#2}{}{^{#2}}} \argopen(#5\argclose)}
+	}
+	{\fractype{{\rm d} \IfNoValueTF{#2}{}{^{#2}} #3}{{\rm d} #4\IfNoValueTF{#2}{}{^{#2}}}}
+}
+\DeclareDocumentCommand\dv{}{\derivative} % Shorthand for \derivative
+
+% Partial derivative
+
+\DeclareDocumentCommand\partialderivative{ s o m g g d() }
+{ % Partial derivative
+	% s: star for \flatfrac flat derivative
+	% o: optional n for nth derivative
+	% m: mandatory (x in df/dx)
+	% g: optional (f in df/dx)
+	% g: optional (y in d^2f/dxdy)
+	% d: long-form d/dx(...)
+	\IfBooleanTF{#1}
+	{\let\fractype\flatfrac}
+	{\let\fractype\frac}
+	\IfNoValueTF{#4}
+	{
+		\IfNoValueTF{#6}
+		{\fractype{\partial \IfNoValueTF{#2}{}{^{#2}}}{\partial #3\IfNoValueTF{#2}{}{^{#2}}}}
+		{\fractype{\partial \IfNoValueTF{#2}{}{^{#2}}}{\partial #3\IfNoValueTF{#2}{}{^{#2}}} \argopen(#6\argclose)}
+	}
+	{
+		\IfNoValueTF{#5}
+		{\fractype{\partial \IfNoValueTF{#2}{}{^{#2}} #3}{\partial #4\IfNoValueTF{#2}{}{^{#2}}}}
+		{\fractype{\partial^2 #3}{\partial #4 \partial #5}}
+	}
+}
+\DeclareDocumentCommand\pderivative{}{\partialderivative} % Shorthand for \partialderivative
+\DeclareDocumentCommand\pdv{}{\partialderivative} % Shorthand for \partialderivative
+
+\DeclareDocumentCommand{\ip}{mm}{
+	\left\langle #1,#2\right\rangle
+}
+\DeclareDocumentCommand\mat{ g g d() }{
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{
+			\IfNoValueTF{#3}{}{
+				\mathbb{M}\left(#3\right)
+			}}{
+				\mathbb{M}_{#2} \IfNoValueTF{#3}{}{\left(#3\right)}
+			}}{
+				\mathbb{M}_{#1\IfNoValueTF{#2}{}{,#2}}\IfNoValueTF{#3}{}{\left(#3\right)}
+			}
+		}
+\DeclareDocumentCommand\UCP{ g g}{
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{}{{\rm UCP}\left(#2\right)}
+	}{{\rm UCP}\left(#1\IfNoValueTF{#2}{}{,#2}\right)}
+}
+\DeclareDocumentCommand\W{ g g }{
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{}{
+			\mathcal{W}\left(#2\right)
+		}
+	}{\mathcal{W}\IfNoValueTF{#2}{\left(#1\right)}{_{#1}\left(#2\right)}}
+}
+\DeclareDocumentCommand\Wmin{ g g d()}{
+	\IfNoValueTF{#3}{}{
+		\IfNoValueTF{#1}{
+			\IfNoValueTF{#2}{
+				\mathcal{W}^{\text{min}}\left(#3\right)
+			}{
+				\mathcal{W}^{\text{min}}_{#2}\left(#3\right)
+			}
+		}{
+			\IfNoValueTF{#2}{
+				\mathcal{W}^{#1\text{-min}}\left(#3\right)
+			}{
+				\mathcal{W}^{#1\text{-min}}_{#2}\left(#3\right)
+			}
+		}
+	}
+}
+\DeclareDocumentCommand\Wmax{ g g d()}{
+	\IfNoValueTF{#3}{}{
+		\IfNoValueTF{#1}{
+			\IfNoValueTF{#2}{
+				\mathcal{W}^{\text{max}}\left(#3\right)
+			}{
+				\mathcal{W}^{\text{max}}_{#2}\left(#3\right)
+			}
+		}{
+			\IfNoValueTF{#2}{
+				\mathcal{W}^{#1\text{-max}}\left(#3\right)
+			}{
+				\mathcal{W}^{#1\text{-max}}_{#2}\left(#3\right)
+			}
+		}
+	}
+}
