@@ -1,282 +1,119 @@
 \documentclass{beamer}
 \usepackage[orientation=landscape,size=custom,width=100,height=70,scale=1.2]{beamerposter}
 
-\usepackage{graphicx}  % Required to include images
+\usepackage{graphicx}
 \usepackage{amsmath,amssymb}
-\usepackage{macros}
+\usepackage{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,patterns}
-\usepackage[backend=biber, style=authoryear]{biblatex}  % Load biblatex to manage references
-\addbibresource{references.bib}  % Specify the bibliography file
 
-\title{Your Poster Title Here}
-\author{Your Name}
-\institute{Your Institution or University}
+\title{Poster Title}
+\author{Author Name}
+\institute{Technion - Israel Institute of Technology}
 \date{\today}
 
-% Define themes and colors if needed
 \usetheme{Frankfurt}
 \usecolortheme{dove}
 
-% Define custom colors
-\usepackage{xcolor}
-\definecolor{TitleBoxColor}{HTML}{A7C3DA}
-\definecolor{BlockTitleColor}{HTML}{A7C3DA}
-\definecolor{BlockBodyColor}{HTML}{DBE3ED}
-\definecolor{HighlightTitleColor}{HTML}{E59090}
-\definecolor{HighlightBodyColor}{HTML}{E4C5C5}
+% Technion-style colors (blue theme)
+\definecolor{TitleBoxColor}{HTML}{003366}
+\definecolor{BlockTitleColor}{HTML}{003366}
+\definecolor{BlockBodyColor}{HTML}{E8EEF4}
+\definecolor{HighlightTitleColor}{HTML}{0066A4}
+\definecolor{HighlightBodyColor}{HTML}{D6E9F5}
 
-% Setting the color of the title and block titles to white
-\setbeamercolor{block title}{fg=white, bg=BlockTitleColor}  % White text on colored background for block titles
+\setbeamercolor{block title}{fg=white, bg=BlockTitleColor}
 \setbeamercolor{block body}{fg=black, bg=BlockBodyColor}
-\setbeamercolor{title in headline}{fg=white, bg=TitleBoxColor}  % White text for the main title
+\setbeamercolor{title in headline}{fg=white, bg=TitleBoxColor}
 \setbeamercolor{highlight block title}{fg=white, bg=HighlightTitleColor}
 \setbeamercolor{highlight block body}{fg=black, bg=HighlightBodyColor}
 
 \setbeamerfont{block title}{size=\Large, series=\bfseries}
-
-% Remove shadows from all blocks
 \setbeamertemplate{blocks}[rounded][shadow=false]
 
-% Custom highlight block environment
-\newenvironment<>{highlightblock}[1]{
-  \setbeamercolor{block title}{fg=white, bg=HighlightTitleColor}
-  \setbeamercolor{block body}{fg=black, bg=HighlightBodyColor}
-  \begin{block}#2{#1}
-}{
-  \end{block}
+\newenvironment<>{highlightblock}[1]{%
+  \setbeamercolor{block title}{fg=white, bg=HighlightTitleColor}%
+  \setbeamercolor{block body}{fg=black, bg=HighlightBodyColor}%
+  \begin{block}#2{#1}%
+}{%
+  \end{block}%
 }
-  
-  
+
 \begin{document}
 
-% Title block, with logo to the left and aligned with the text
 \begin{frame}
-    \begin{beamercolorbox}[wd=\textwidth,sep=1em]{title in headline}  % Ensure width is set to \textwidth
-        \begin{minipage}[c]{0.17\textwidth}  % Adjust width as needed for the logo
-            \includegraphics[height=11cm,keepaspectratio]{logo.png}  % Path to the logo image, adjust height as needed
+    % --- Title bar: logo | title & author & institution | advisor ---
+    \begin{beamercolorbox}[wd=\textwidth,sep=1em]{title in headline}
+        \begin{minipage}[c]{0.17\textwidth}
+            \includegraphics[height=11cm,keepaspectratio]{logo.png}
         \end{minipage}
         \hfill
         \begin{minipage}[c]{0.55\textwidth}
             \usebeamerfont{title}\Huge\centering
-            \textbf{Subhomogeneous Operator Systems}\\[0.5em]  % Title
-            \large Ran Kiri, Faculty of Mathematics\\  % Author name
-            \large Technion - Israel Institute of Technology  % Institution
+            \textbf{Poster Title}\\[0.5em]
+            \large Author Name, Faculty of [Faculty]\\
+            \large Technion -- Israel Institute of Technology
         \end{minipage}
         \hfill
         \begin{minipage}[c]{0.23\textwidth}
-        \Large\centering \textbf{Advisor: Orr Moshe Shalit}
-        \vfill
+            \Large\centering\textbf{Advisor: Advisor Name}
+            \vfill
         \end{minipage}
     \end{beamercolorbox}
 
-    \vfill  % Add vertical space between title and content
+    \vfill
 
-    % Columns for content
     \begin{columns}[t,onlytextwidth]
         \begin{column}{.32\textwidth}
-            \begin{block}{\vspace*{0.5cm}\centering Compact matrix convex sets\vspace*{0.5cm}}\vspace*{0.25cm}
-			A \textbf{compact matrix convex set over $\mathbf{V}$} is a disjoint union $K=\qty{K_n}_{n=1}^{\infty}$ of compact subsets $K_n\subset\mat{n}\qty(V)$ (and $\mat{n}\qty(V)$ is the set of $n\times n$ matrices with entries in $V$) which is closed under \textbf{matrix convex combinations} in $K$, namely:
-\[
-	v=\sum\limits_{i=1}^k\gamma_i^*v_i\gamma_i\in K_n
-\]
-for all $v_i\in K_{n_i}$ and $\gamma_i\in\mat{n_i}{n}$ ($i=1,\dots,k$) such that $\sum_{i=1}^k\gamma_i^*\gamma_i=I_n$.           \vspace*{1cm}
-            \begin{figure}[h]
-			\tikzstyle{ipe stylesheet} = [
-  ipe import,
-  even odd rule,
-  line join=round,
-  line cap=butt,
-  ipe pen normal/.style={line width=0.4},
-  ipe pen heavier/.style={line width=0.8},
-  ipe pen fat/.style={line width=1.2},
-  ipe pen ultrafat/.style={line width=2},
-  ipe pen normal,
-  ipe mark normal/.style={ipe mark scale=3},
-  ipe mark large/.style={ipe mark scale=5},
-  ipe mark small/.style={ipe mark scale=2},
-  ipe mark tiny/.style={ipe mark scale=1.1},
-  ipe mark normal,
-  /pgf/arrow keys/.cd,
-  ipe arrow normal/.style={scale=7},
-  ipe arrow large/.style={scale=10},
-  ipe arrow small/.style={scale=5},
-  ipe arrow tiny/.style={scale=3},
-  ipe arrow normal,
-  /tikz/.cd,
-  ipe arrows, % update arrows
-  <->/.tip = ipe normal,
-  ipe dash normal/.style={dash pattern=},
-  ipe dash dotted/.style={dash pattern=on 1bp off 3bp},
-  ipe dash dashed/.style={dash pattern=on 4bp off 4bp},
-  ipe dash dash dotted/.style={dash pattern=on 4bp off 2bp on 1bp off 2bp},
-  ipe dash dash dot dotted/.style={dash pattern=on 4bp off 2bp on 1bp off 2bp on 1bp off 2bp},
-  ipe dash normal,
-  ipe node/.append style={font=\normalsize},
-  ipe stretch normal/.style={ipe node stretch=1},
-  ipe stretch normal,
-  ipe opacity 10/.style={opacity=0.1},
-  ipe opacity 30/.style={opacity=0.3},
-  ipe opacity 50/.style={opacity=0.5},
-  ipe opacity 75/.style={opacity=0.75},
-  ipe opacity opaque/.style={opacity=1},
-  ipe opacity opaque,
-]
-\definecolor{red}{rgb}{1,0,0}
-\definecolor{blue}{rgb}{0,0,1}
-\definecolor{green}{rgb}{0,1,0}
-\definecolor{yellow}{rgb}{1,1,0}
-\definecolor{orange}{rgb}{1,0.647,0}
-\definecolor{gold}{rgb}{1,0.843,0}
-\definecolor{purple}{rgb}{0.627,0.125,0.941}
-\definecolor{gray}{rgb}{0.745,0.745,0.745}
-\definecolor{brown}{rgb}{0.647,0.165,0.165}
-\definecolor{navy}{rgb}{0,0,0.502}
-\definecolor{pink}{rgb}{1,0.753,0.796}
-\definecolor{seagreen}{rgb}{0.18,0.545,0.341}
-\definecolor{turquoise}{rgb}{0.251,0.878,0.816}
-\definecolor{violet}{rgb}{0.933,0.51,0.933}
-\definecolor{darkblue}{rgb}{0,0,0.545}
-\definecolor{darkcyan}{rgb}{0,0.545,0.545}
-\definecolor{darkgray}{rgb}{0.663,0.663,0.663}
-\definecolor{darkgreen}{rgb}{0,0.392,0}
-\definecolor{darkmagenta}{rgb}{0.545,0,0.545}
-\definecolor{darkorange}{rgb}{1,0.549,0}
-\definecolor{darkred}{rgb}{0.545,0,0}
-\definecolor{lightblue}{HTML}{A4C48B}
-\definecolor{lightcyan}{rgb}{0.878,1,1}
-\definecolor{lightgray}{rgb}{0.827,0.827,0.827}
-\definecolor{lightgreen}{rgb}{0.565,0.933,0.565}
-\definecolor{lightyellow}{rgb}{1,1,0.878}
-\definecolor{black}{rgb}{0,0,0}
-\definecolor{white}{rgb}{1,1,1}
-\begin{tikzpicture}[ipe stylesheet, scale=1.5]
-  \fill[lightblue]
-    (224, 320)
-     -- (240, 336)
-     -- (368, 336)
-     -- (352, 320)
-     -- cycle;
-  \fill[shift={(206, 350)}, scale=1.25, lightblue]
-    (0, 0)
-     -- (16, 16)
-     -- (144, 16)
-     -- (128, 0)
-     -- cycle;
-  \fill[shift={(183.5, 383.5)}, scale=1.5625, lightblue]
-    (0, 0)
-     -- (16, 16)
-     -- (144, 16)
-     -- (128, 0)
-     -- cycle;
-  \fill[shift={(155.375, 422.375)}, scale=1.9531, lightblue]
-    (0, 0)
-     -- (16, 16)
-     -- (144, 16)
-     -- (128, 0)
-     -- cycle;
-  \fill[shift={(120.22, 466.471)}, scale=2.4414, lightblue]
-    (0, 0)
-     -- (16, 16)
-     -- (144, 16)
-     -- (128, 0)
-     -- cycle;
-  \pic
-     at (318.9209, 326.2575) {ipe disk};
-  \pic
-     at (255.5669, 361.3044) {ipe disk};
-  \pic
-     at (294.433, 394.1047) {ipe disk};
-  \pic
-     at (381.601, 483.7439) {ipe disk};
-  \pic[ipe mark scale=2.0]
-     at (296, 512) {ipe disk};
-  \pic[ipe mark scale=2.0]
-     at (296, 520) {ipe disk};
-  \pic[ipe mark scale=2.0]
-     at (296, 528) {ipe disk};
-  \pic[ipe mark scale=2.0]
-     at (296, 536) {ipe disk};
-  \node[ipe node]
-     at (241.204, 326.74) {$K_1$};
-  \node[ipe node]
-     at (227.862, 359.414) {$K_2$};
-  \node[ipe node]
-     at (209.713, 397.704) {$K_3$};
-  \node[ipe node]
-     at (187.006, 443.096) {$K_4$};
-  \node[ipe node]
-     at (160.863, 492.039) {$K_5$};
-  \node[ipe node]
-     at (325, 327) {$v_1$};
-  \node[ipe node]
-     at (261.646, 362.046) {$v_2$};
-  \node[ipe node]
-     at (300.512, 394.847) {$v_3$};
-  \node[ipe node]
-     at (387.68, 484.486) {$v_4$};
-  \pic[orange]
-     at (296, 440) {ipe disk};
-  \node[ipe node, font=\small]
-     at (302.079, 440.742) {$v=\gamma_1^*v_1\gamma+\gamma_2^*v_2\gamma_2$};
-  \node[ipe node, font=\small]
-     at (331.079, 418.742) {$+\gamma_3^*v_3\gamma+\gamma_4^*v_4\gamma_4$};
-    (318.3605, 330.2877)
-     .. controls (263.484, 376.9783) and (263.5415, 412.3134) .. (328.533, 436.293);
-\end{tikzpicture}\caption{An example of a matrix convex combination in $K$.}\end{figure}
-\vspace*{1cm} A \textbf{matrix affine homeomorphism} between $K=\qty{K_n}_{n=1}^{\infty}$ and $W=\qty{W_n}_{n=1}^{\infty}$ is a collection $F=\qty{F_n}_{n=1}^{\infty}$ of continuous mappings with an invertible inverse such that
-\[
-	F_n\qty(\sum_{i=1}^k\gamma_i^*v_i\gamma_i)=\sum\limits_{i=1}^k\gamma_i^*F_{n_i}\qty(v_i)\gamma_i
-\]
-for any matrix convex combination in $K$.
-            \end{block}\vspace*{1cm}
-            \begin{block}{\vspace*{0.5cm}\centering Matrix extreme points\vspace*{0.5cm}}\vspace*{0.3cm}
-            A point $v$ in a matrix convex set $K$ is called \textbf{matrix extreme} if it cannot be written as a matrix convex combination from lower levels in a non-trivial way. A point $v$ is called \textbf{absolute matrix extreme} if it cannot be written as any matrix convex combination in a non-trivial way. \par \vspace*{0.3cm}
-            In (\cite[Theorem 4.3]{WebWink}), it was shown that the matrix extreme points of a compact matrix convex set generate it via matrix convex combinations.
+            \begin{block}{Introduction}
+                Replace with a short introduction and context for your work.
+            \end{block}
+
+            \begin{block}{Objectives}
+                \begin{itemize}
+                    \item First objective.
+                    \item Second objective.
+                    \item Third objective.
+                \end{itemize}
+            \end{block}
+
+            \begin{block}{Methods}
+                Describe your methods or approach here.
             \end{block}
         \end{column}
+
         \begin{column}{.32\textwidth}
-        \vspace*{1cm}
-        \begin{block}{\vspace*{0.5cm}\centering Subhomogeneous matrix convex set \vspace*{0.5cm}}\vspace*{0.25cm}
-        A compact matrix convex set $K$ over $V$ is called $\mathbf{n}$\textbf{-subhomogeneous} if there exists some $n\in\bN$ such that if $v\in\partial K$, then $v\in K_m$ for some $m\leq n$. \par\vspace*{0.5cm}
-        \textbf{Proposition (}\cite[Proposition 3.5]{Kiri}\textbf{)}.\par
-        Let $K$ be an $n$-subhomogeneous compact matrix convex set over a finite dimensional vector space $V$. Then, $K$ is the smallest matrix convex set over $V$ which has $K_n$ at level $n$.
-        \end{block}
-        \vspace*{1cm}
-        \begin{block}{\vspace*{0.5cm}\centering Operator systems and CP maps \vspace*{0.5cm}}\vspace*{0.25cm}
-                A subspace $\cS$ of a $C^*$-algebra is called an \textbf{operator system} if it is unital and self-adjoint. An element in $\cS$ is \textbf{positive} if it is positive as an element of $\cA$.\par\vspace{0.5cm} A linear mapping $\phi:\cS\to \cR$ between operator systems is $\mathbf{n}$\textbf{-positive} if $\qty(\phi\qty(s_{ij}))$ is positive in $\mat{n}\qty(\cR)$ whenever $\qty(s_{ij})$ is positive in $\mat{n}\qty(\cS)$. $\phi$ is \textbf{unital and completely positive (UCP)} if it is $n$-positive for all $n$, and $\phi(1_{\cS})=1_{\cR}$. When $\phi$ is UCP, invertible, and $\phi^{-1}$ is also UCP, we call it a \textbf{complete order isomorphism}.\par\vspace*{0.5cm} The disjoint union $\UCP{\cS}=\qty{\UCP{\cS}{\mat{n}}}_{n=1}^{\infty}$ of all UCP maps from $\cS$ to $\mat{n}$ is a prime example of a compact matrix convex set over $\cS^*$, which we call the \textbf{matrix state space} of $\cS$.  \par\vspace*{0.5cm}An operator system $\cS$ is called $\mathbf{n}$\textbf{-subhomogeneous} if $\UCP{\cS}$ is $n$-subhomogeneous.
+            \begin{block}{Results}
+                Present your main results, figures, or key findings here.
             \end{block}
-            \vspace*{1cm}
-            \begin{highlightblock}{\vspace*{0.5cm}\centering What does $\UCP{\cS}$ teach us about $\cS$?\vspace*{0.5cm}}\vspace*{0.25cm}
-\begin{itemize}
-\item How does the normed structure of $\cS$ determine $\UCP{\cS}$ or its matrix extreme points?
-\item How does the matrix convex structure of $\UCP{\cS}$ determine $\cS$ as an operator system?
-\item Is the answer to the previous questions different if $\cS$ is $n$-subhomogeneous?
-\item Is the answer to the previous questions different if $\cS$ is a $C^*$-algebra?
-\item Can we understand general compact matrix convex set by interpolating the connection between operator systems and their matrix state spaces?
-\end{itemize}
-\end{highlightblock}
+
+            \begin{block}{Discussion}
+                Brief discussion and implications.
+            \end{block}
+
+            \begin{highlightblock}{Conclusions}
+                \begin{itemize}
+                    \item Main conclusion one.
+                    \item Main conclusion two.
+                \end{itemize}
+            \end{highlightblock}
         \end{column}
+
         \begin{column}{.32\textwidth}
-            \begin{block}{\vspace*{0.5cm}\centering General results\vspace*{0.5cm}}\vspace*{0.2cm}
-           (\cite[Theorem B]{Farenick}) A matrix state $\phi\in\UCP{\cS}$ is a matrix extreme point if and only if it is pure.\par\vspace*{0.2cm}
-            (\cite[Theorem 2.1]{Kiri})            A matrix state $\phi\in\UCP{\cS}$ is an absolute matrix extreme point if and only if it extends to an irreducible $*$-representation of $C^*\qty(\cS)$, such that the extension is the unique UCP extension of $\phi$ to $C^*\qty(\cS)$.\par \vspace*{0.2cm}
-            (\cite[Proposition 4.1]{Kiri})            Two operator systems $\cS,\cR$ are completely order isomorphic if and only if $\UCP{\cS},\UCP{\cR}$ are matrix affine homeomorphic.\par \vspace*{0.2cm}
-            (\cite[Corollary 2.6]{Kiri})            Let $K$ be a compact matrix convex set over $V$. A point $v\in \partial K\cap K_n$ is either an absolute matrix extreme point, or it is of the form $\gamma^*\tilde{v}\gamma$ for some $\tilde{v}\in \partial K\cap K_{n+1}$.
-            \vspace*{0.2cm}\end{block}\vspace*{1cm}
-            \begin{block}{\vspace*{0.5cm}\centering The subhomogeneous case\vspace*{0.5cm}}\vspace*{0.25cm}
-            (\cite[Proposition 3.1]{Kiri}) Let $\cA$ be a unital $C^*$-algebra. Then $\cA$ is an $n$-subhomogeneous operator system if and only if its irreducible representations are of dimension at most $n$.\par\vspace*{0.2cm}
-           Let $\cS,\cR$ be $n_{\cS}$-subhomogeneous and $n_{\cR}$-subhomogeneous operator systems, and set $n=\max\qty{n_{\cS},n_{\cR}}$.\par \vspace*{0.2cm}
-           (\cite[Theorem 4.2]{Kiri}) $\cS$ and $\cR$ are $n$-order isomorphic if and only if they are completely order isomorphic.\par \vspace*{0.2cm}
-           (\cite[Corollary 4.11]{Kiri}) If $\cS,\cR$ are generated by the $d$-tuples of unitaries $\bfs,\bfr$, the following are equivalent - (1) $s_i\mapsto r_i$ extends to an $n$-order isomorphism of $\cS$ and $\cR$. (2) $s_i\mapsto r_i$ extends to a complete order isomorphism of $\cS$ and $\cR$. (3) $s_i\mapsto r_i$ extends to a $*$-isomorphism of $C^*\qty(\cS)$ and $C^*\qty(\cR)$.\vspace*{0.2cm}
-            \end{block}\vspace*{1cm}
-            \begin{block}{\vspace*{0.5cm}\centering References\vspace*{0.5cm}}\vspace*{0.25cm}
-                \printbibliography[heading=bibnumbered]
+            \begin{block}{References}
+                \begin{itemize}
+                    \item Author (Year). \textit{Title}. Journal.
+                    \item Author (Year). \textit{Title}. Conference.
+                \end{itemize}
+            \end{block}
+
+            \begin{block}{Contact}
+                Author Name\\
+                \texttt{author@technion.ac.il}\\
+                Faculty of [Faculty], Technion
             \end{block}
         \end{column}
     \end{columns}
 
-    \vfill  % Add vertical space at the bottom
-
+    \vfill
 \end{frame}
 \end{document}
